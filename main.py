@@ -1,17 +1,21 @@
-from loguru import logger
 from ocr import getTargetPosition
-from utils import reduce_resolution
+from utils import *
 import time
+from loguru import logger
 
-if __name__ == '__main__':
-    img = 'imgs/1.png'
 
-    start_time = time.time()
+@logTime('图像识别')
+def main():
+    logger.info('开始运行')
 
-    # img = reduce_resolution(img, 0.3) # 降低图像清晰度
+    img = getScreenShot('Chrome')
+    img = crop_image(img, 0, 364, 300, 600)
+    img = getPIL(img)
+
     position = getTargetPosition(img, '栅格')
 
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    logger.info(f"识别完成，总用时: {elapsed_time:.2f}s")
     logger.info(f"目标位置: {position}")
+
+
+if __name__ == '__main__':
+    main()

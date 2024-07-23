@@ -1,6 +1,9 @@
 import cv2
 import pygetwindow as gw
 import pyautogui
+import time, io
+from PIL import Image
+import numpy as np
 
 
 def reduce_resolution(image, scale_factor):
@@ -47,6 +50,7 @@ def getScreenShot(handle: str = None):
     # 如果有句柄，先激活对应句柄窗口
     if handle:
         gw.getWindowsWithTitle(handle)[0].activate()
+        time.sleep(0.5)
 
     # 获取当前活动窗口
     active_window = gw.getActiveWindow()
@@ -72,10 +76,24 @@ def crop_image(img, x, y, width, height):
     :return: 裁剪后的图像
     """
 
-    # 读取图像
-    image = cv2.imread(img)
+    cropped_image = img.crop([x, y, x + width, y + height])
 
-    # 裁剪指定区域的图像
-    cropped_image = image[y:y + height, x:x + width]
+    # 保存
+    # cropped_image.save('cropped_image.png')
 
     return cropped_image
+
+
+def getPIL(img):
+    """
+    转换为PIL格式
+    :param img: 图像路径
+    :return: PIL格式的图像
+    """
+    # image_bytes = io.BytesIO()
+    # img.save(image_bytes, format='PNG')
+    # image_bytes.seek(0)  # 重置 BytesIO 对象的位置
+
+    # # 将内存中的图像加载到 PIL Image 对象中
+    # image = Image.open(image_bytes)
+    return np.array(img)

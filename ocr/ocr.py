@@ -1,6 +1,7 @@
 from paddleocr import PaddleOCR, draw_ocr
 
 # ocr推理模型
+# 模型下载链接 https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md
 det_model_dir = 'model/det'  # 文本检测模型
 rec_model_dir = 'model/rec'  # 文本识别模型
 cls_model_dir = 'model/cls'  # 文本角度模型
