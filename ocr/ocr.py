@@ -1,4 +1,5 @@
 from paddleocr import PaddleOCR, draw_ocr
+import json
 
 # ocr推理模型
 # 模型下载链接 https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md
@@ -40,9 +41,18 @@ def getTargetPosition(img, target: str) -> list:
     Returns:
         list: 返回文字的坐标
     """
+
     ocrResult = ocr.ocr(img, cls=False)
+    # ocrResult转换为json并保存为test.json
+    with open('test.json', 'w', encoding='utf-8') as f:
+        json.dump(ocrResult, f, ensure_ascii=False, indent=4)
+
     position = []
     wordList = []
+
+    if len(ocrResult) == 0 or ocrResult[0] == None:
+        return position
+
     for res in ocrResult:
         for line in res:
             if target in line[1][0]:

@@ -4,6 +4,7 @@ import pyautogui
 import time, io
 from PIL import Image
 import numpy as np
+from loguru import logger
 
 
 def reduce_resolution(image, scale_factor):
@@ -36,12 +37,13 @@ def reduce_resolution(image, scale_factor):
     return resized_image
 
 
-def getScreenShot(handle: str = None):
+def getScreenShot(handle: str = None, area: list = None):
     """
     获取屏幕截图
 
     Args:
         handle (str, optional): 窗口句柄 Defaults to None.
+        area (list, optional): 区域坐标，[x, y, width, height]. Defaults to None.
 
     Returns:
         _type_: 截屏数据
@@ -56,7 +58,10 @@ def getScreenShot(handle: str = None):
     active_window = gw.getActiveWindow()
 
     # 获取窗口的位置和大小
-    x, y, width, height = active_window.left, active_window.top, active_window.width, active_window.height
+    x, y, width, height = area if area else (active_window.left,
+                                             active_window.top,
+                                             active_window.width,
+                                             active_window.height)
 
     # 截取屏幕截图
     return pyautogui.screenshot(region=(x, y, width, height))
@@ -82,18 +87,3 @@ def crop_image(img, x, y, width, height):
     # cropped_image.save('cropped_image.png')
 
     return cropped_image
-
-
-def getPIL(img):
-    """
-    转换为PIL格式
-    :param img: 图像路径
-    :return: PIL格式的图像
-    """
-    # image_bytes = io.BytesIO()
-    # img.save(image_bytes, format='PNG')
-    # image_bytes.seek(0)  # 重置 BytesIO 对象的位置
-
-    # # 将内存中的图像加载到 PIL Image 对象中
-    # image = Image.open(image_bytes)
-    return np.array(img)
