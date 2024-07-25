@@ -87,3 +87,12 @@ def crop_image(img, x, y, width, height):
     # cropped_image.save('cropped_image.png')
 
     return cropped_image
+
+
+def calculate_center(points: list):
+    """计算中心点"""
+    x_coords = [point[0] for point in points]
+    y_coords = [point[1] for point in points]
+    center_x = sum(x_coords) / len(x_coords)
+    center_y = sum(y_coords) / len(y_coords)
+    return int(center_x), int(center_y)

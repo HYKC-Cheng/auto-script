@@ -3,6 +3,7 @@ from utils import *
 import time
 from loguru import logger
 import numpy as np
+import pydirectinput
 
 
 @logTime('图像识别')
@@ -20,7 +21,11 @@ def main():
     position = None if len(position) == 0 else position[0]
 
     if position:
+        x, y = calculate_center(position)
         logger.info(f"目标位置: {position}")
+        pydirectinput.moveTo(x, y + 364)
+        pydirectinput.click()
+
         return True
 
     return False
