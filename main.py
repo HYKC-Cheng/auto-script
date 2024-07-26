@@ -1,35 +1,5 @@
-from ocr import getTargetPosition
 from utils import *
-import time
-from loguru import logger
-import numpy as np
-import pydirectinput
-
-
-@logTime('图像识别')
-@doUntil()
-def main():
-    logger.info('图像识别中...')
-
-    # img = getScreenShot(handle='Chrome', area=[0, 364, 300, 600])
-    img = getScreenShot(area=[0, 364, 300, 600])
-    # img = crop_image(img, 0, 364, 300, 600)
-    img = np.array(img)
-
-    position = getTargetPosition(img, '栅格')
-
-    position = None if len(position) == 0 else position[0]
-
-    if position:
-        x, y = calculate_center(position)
-        logger.info(f"目标位置: {position}")
-        pydirectinput.moveTo(x, y + 364)
-        pydirectinput.click()
-
-        return True
-
-    return False
-
 
 if __name__ == '__main__':
-    main()
+    # click_text_until_find('在多数业务情况下', title='文本识别')
+    click_img_until_find('imgs/1.png', title='图片识别', area=[0, 176, 800, 850])

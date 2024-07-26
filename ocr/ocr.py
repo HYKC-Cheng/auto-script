@@ -1,5 +1,6 @@
 from paddleocr import PaddleOCR, draw_ocr
 import json
+from loguru import logger
 
 # ocr推理模型
 # 模型下载链接 https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md
@@ -39,7 +40,8 @@ def getTargetPosition(img, target: str) -> list:
         target (str): 目标文字
 
     Returns:
-        list: 返回文字的坐标
+        position: 返回文字的坐标
+        wordList: 返回文字的内容
     """
 
     ocrResult = ocr.ocr(img, cls=False)
@@ -56,7 +58,8 @@ def getTargetPosition(img, target: str) -> list:
     for res in ocrResult:
         for line in res:
             if target in line[1][0]:
+                logger.debug(f"识别结果 {line[1]}")
                 position.append(line[0])
                 wordList.append(line[1][0])
 
-    return position
+    return position, wordList
